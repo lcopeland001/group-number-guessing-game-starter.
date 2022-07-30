@@ -19,6 +19,11 @@ app.use(express.static('server/public'));
 
 // GET & POST Routes go here
 
+app.get('/guesses', (req, res) => {
+  //console.log(req);
+  res.send(guessArray);
+})
+
 app.post('/guesses', (req, res) =>{
   const guess = req.body;
   console.log(guess);

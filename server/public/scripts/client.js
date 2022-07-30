@@ -7,6 +7,25 @@ function handleReady() {
   $('#submit-guesses-button').on('click', submitGuesses)
 }
 
+function getGuesses () {
+  console.log('in get guesses');
+  $.ajax ({
+    method: 'GET',
+    url: '/guesses'
+  }).then (function(response){
+    console.log('resonse', response);
+    $('#guess-result').empty();
+    for (let guess of response) {
+    $('#guess-result').append(`
+    <li>Guess 1 is ${guess.guessOne} that guess is ${guess.resultOne} </li>
+    <li>Guess 2 is ${guess.guessTwo} that guess is ${guess.resultTwo}</li>
+    `)}
+  }).catch(function (error) {
+    console.log(error);
+    alert('Something went wrong oh nooooo!!!')
+  })
+} 
+
 function submitGuesses() {
   console.log('In submitGuesses')
   $.ajax({
@@ -17,12 +36,10 @@ function submitGuesses() {
       guessTwo: $('#guess-two').val()
     }
   }).then(function (response) {
-    //call a get route
-    // call guesses 
-    // call results
-    // append to DOM - <li> guessOne: resultOne looke like "Player one guessed 2 - that was high"
+    getGuesses();
   }).catch(function (error) {
     console.log(error);
     alert('Something went wrong oh nooooo!!!')
   })
+  
 };
